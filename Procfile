@@ -1,0 +1,1 @@
+web: gunicorn extrator_solar_web:app
