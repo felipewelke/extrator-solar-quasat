@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrator Solar Quasat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Quasat Energia Solar" class="app-logo">
+            </div>
+            <h1>Sistema de Extração e Preenchimento Automático</h1>
+        </div>
+        
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Selecione o PDF da Fatura:</label>
+                <input type="file" name="file" id="file" accept="application/pdf" required>
+            </div>
+            <div class="form-group">
+                <label for="distribuidora">Selecione a Distribuidora:</label>
+                <select name="distribuidora" id="distribuidora" required>
+                    <option value="">-- Selecione --</option>
+                    <option value="RGE">RGE</option>
+                    <option value="COOPERLUZ">COOPERLUZ</option>
+                    <option value="CERTHIL">CERTHIL</option>
+                    <option value="CERMISSOES">CERMISSOES</option>
+                </select>
+            </div>
+            <button type="submit">Extrair Dados</button>
+        </form>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+    </div>
+
+    <div class="footer-author">
+        Felipe Welke™
+    </div>
+</body>
+</html>

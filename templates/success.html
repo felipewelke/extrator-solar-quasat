@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucesso - Extrator Solar</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* START ADDED/MODIFIED CSS FOR LOGO AND FOOTER */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .app-logo {
+            max-width: 250px; /* Ajuste o tamanho da logo conforme necessário */
+            height: auto;
+        }
+        .footer-author {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px;
+            color: #aaaaaa;
+            z-index: 1000;
+            text-align: right;
+            padding: 2px 5px;
+        }
+        /* END ADDED/MODIFIED CSS FOR LOGO AND FOOTER */
+        h1 {
+            color: #27ae60;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #c3e6cb;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .download-section {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2196f3;
+            text-align: center; /* Centralizar o botão de download */
+        }
+        .download-buttons {
+            display: flex; /* Usar flexbox para centralizar um único item */
+            justify-content: center; /* Centralizar horizontalmente */
+            gap: 15px; /* Espaço entre os botões */
+            margin-top: 15px;
+            flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+        }
+        .action-button {
+            background-color: #2196f3;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: inline-block;
+            font-size: 1.1em;
+        }
+        .action-button.success {
+            background-color: #28a745;
+        }
+        .action-button.success:hover {
+            background-color: #218838;
+        }
+        .action-button.info {
+            background-color: #17a2b8;
+        }
+        .action-button.info:hover {
+            background-color: #138496;
+        }
+        .action-button.secondary {
+            background-color: #6c757d;
+        }
+        .action-button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .data-category {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #6c757d;
+        }
+        .data-category h3 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .data-category.cliente {
+            border-left-color: #28a745;
+        }
+        .data-category.cliente h3 {
+            color: #28a745;
+        }
+        .data-category.entrada {
+            border-left-color: #fd7e14;
+        }
+        .data-category.entrada h3 {
+            color: #fd7e14;
+        }
+        .data-category.sistema-fv {
+            border-left-color: #ffc107;
+        }
+        .data-category.sistema-fv h3 {
+            color: #e0a800;
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+        }
+        .data-item {
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            display: flex; /* Para alinhar label e value */
+            flex-wrap: wrap; /* Para quebra de linha se o conteúdo for muito longo */
+        }
+        .data-label {
+            font-weight: bold;
+            color: #495057;
+            margin-right: 5px;
+        }
+        .data-value {
+            color: #6c757d;
+            flex-grow: 1; /* Permite que o valor ocupe o espaço restante */
+        }
+        
+        @media (max-width: 768px) {
+            .download-buttons {
+                flex-direction: column;
+            }
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- START ADDED: Logo -->
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Quasat Energia Solar" class="app-logo">
+        </div>
+        <!-- END ADDED -->
+        <h1>✅ Processamento Concluído com Sucesso!</h1>
+
+        <div class="success-message">
+            {{ message }}
+        </div>
+
+        <div class="download-section">
+            <h3>Downloads e Ações</h3>
+            <div class="download-buttons">
+                <a href="{{ url_for('download_zip', zip_filename=zip_filename) }}" class="action-button success">
+                    📦 Baixar Projeto Completo (ZIP)
+                </a>
+                <a href="{{ url_for('show_process_data_form') }}" class="action-button info">
+                    ✏️ Corrigir Dados
+                </a>
+                <a href="{{ url_for('clear_session_and_redirect_to_upload') }}" class="action-button secondary">
+                       Novo Projeto
+                </a>
+            </div>
+        </div>
+
+        <h2>Dados de Entrada Utilizados (Distribuidora: {{ distributor_type }})</h2>
+
+        <div class="data-category cliente">
+            <h3>Dados do Cliente</h3>
+            <div class="data-grid">
+                {% for key, value in dados_cliente.items() %}
+                    <div class="data-item">
+                        <span class="data-label">{{ key }}:</span>
+                        <span class="data-value">{{ value }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="data-category entrada">
+            <h3>⚡ Dados da Entrada</h3>
+            <div class="data-grid">
+                {% for key, value in dados_entrada.items() %}
+                    <div class="data-item">
+                        <span class="data-label">{{ key }}:</span>
+                        <span class="data-value">{{ value }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="data-category sistema-fv">
+            <h3>☀️ Dados do Sistema Fotovoltaico</h3>
+            <div class="data-grid">
+                {% for key, value in dados_sistema_fv.items() %}
+                    <div class="data-item">
+                        <span class="data-label">{{ key }}:</span>
+                        <span class="data-value">{{ value }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- START ADDED: Footer Author -->
+    <div class="footer-author">
+        Felipe Welke™
+    </div>
+    <!-- END ADDED -->
+</body>
+</html>

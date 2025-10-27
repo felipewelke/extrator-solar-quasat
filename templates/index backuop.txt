@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quasat Energia Solar - Upload de Fatura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-hover-color: #0056b3;
+            --success-color: #28a745;
+            --success-hover-color: #218838;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #e9ecef;
+            --border-color: #ced4da;
+            --card-bg: #fff;
+            --shadow-light: rgba(0, 0, 0, 0.05);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            text-align: center;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 2.2em;
+            text-transform: uppercase;
+        }
+        p {
+            color: #555;
+            margin-bottom: 25px;
+        }
+        .upload-box {
+            border: 2px dashed var(--border-color);
+            background-color: var(--dark-bg);
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+        }
+        .upload-box:hover {
+            border-color: var(--primary-color);
+            background-color: #e2f0ff;
+        }
+        .upload-box p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #6c757d;
+            font-weight: 400;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: var(--primary-hover-color);
+            transform: translateY(-2px);
+        }
+        .message {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        label.upload-box {
+            display: block; /* Make sure label takes full width for click area */
+        }
+        /* New styles for distributor selection */
+        .distributor-selection {
+            margin-bottom: 25px;
+            text-align: left;
+            padding: 15px 20px;
+            background-color: var(--dark-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .distributor-selection label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
+        .distributor-options {
+            display: flex;
+            gap: 10px; /* Reduced gap for more options */
+            justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .distributor-options input[type="radio"] {
+            display: none; /* Hide default radio button */
+        }
+        .distributor-options input[type="radio"] + label {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px; /* Adjusted padding */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            color: #555;
+            white-space: nowrap; /* Prevent text wrapping inside label */
+        }
+        .distributor-options input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 5px var(--shadow-light);
+            font-weight: 600;
+        }
+        .distributor-options input[type="radio"] + label:hover {
+            background-color: #e9ecef;
+        }
+        .distributor-options input[type="radio"]:checked + label:hover {
+            background-color: var(--primary-hover-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quasat Energia Solar</h1>
+        <p>Faça o upload da fatura de energia para extrair os dados e iniciar o projeto fotovoltaico.</p>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            
+            <div class="distributor-selection">
+                <label>Selecione a Distribuidora da Fatura:</label>
+                <div class="distributor-options">
+                    <input type="radio" id="distribuidora_rge" name="distribuidora" value="RGE" checked>
+                    <label for="distribuidora_rge">RGE</label>
+                    <input type="radio" id="distribuidora_cooperluz" name="distribuidora" value="COOPERLUZ">
+                    <label for="distribuidora_cooperluz">Cooperluz</label>
+                    <input type="radio" id="distribuidora_certhil" name="distribuidora" value="CERTHIL">
+                    <label for="distribuidora_certhil">Certhil</label>
+                    <input type="radio" id="distribuidora_cermissoes" name="distribuidora" value="CERMISSOES">
+                    <label for="distribuidora_cermissoes">Cermissões</label>
+                </div>
+            </div>
+
+            <label for="file-upload" class="upload-box">
+                <p>Arraste e solte o PDF aqui ou clique para selecionar</p>
+                <input id="file-upload" type="file" name="file" accept=".pdf">
+            </label>
+            <button type="submit">Processar Fatura</button>
+        </form>
+
+        {% if error %}
+            <p class="message error">{{ error }}</p>
+        {% endif %}
+        {% if info %}
+            <p class="message info">{{ info }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('file-upload').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.querySelector('.upload-box p').textContent = 'Arquivo selecionado: ' + this.files[0].name;
+                document.querySelector('.upload-box').style.borderColor = 'var(--success-color)';
+                document.querySelector('.upload-box').style.backgroundColor = '#d4edda'; /* Light green for selected */
+            } else {
+                document.querySelector('.upload-box p').textContent = 'Arraste e solte o PDF aqui ou clique para selecionar';
+                document.querySelector('.upload-box').style.borderColor = 'var(--border-color)';
+                document.querySelector('.upload-box').style.backgroundColor = 'var(--dark-bg)';
+            }
+        });
+    </script>
+</body>
+</html>

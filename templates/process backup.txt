@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preenchimento Manual - Extrator Solar</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        /* START MODIFIED/ADDED CSS FOR LOGO AND FOOTER */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .app-logo {
+            max-width: 250px; /* Ajuste o tamanho da logo conforme necessário */
+            height: auto;
+        }
+        .footer-author {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px;
+            color: #aaaaaa;
+            z-index: 1000;
+            text-align: right;
+            padding: 2px 5px;
+        }
+        /* END MODIFIED/ADDED CSS FOR LOGO AND FOOTER */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .form-section {
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], select,
+        .autocomplete-container input,
+        input[type="number"],
+        input[type="date"] { /* Adicionado para input type=date */
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+            cursor: pointer;
+        }
+        input[type="file"]:hover {
+            background-color: #f0f0f0;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus,
+        select:focus, .autocomplete-container input:focus,
+        input[type="number"]:focus, input[type="date"]:focus, input[type="file"]:focus { /* Adicionado para input type=date */
+            border-color: #3498db;
+            outline: none;
+        }
+        .extracted-data {
+            background-color: #e8f6f3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #27ae60;
+        }
+        .extracted-data h3 {
+            color: #27ae60;
+            margin-top: 0;
+            margin-bottom: 10px; /* Adicionado margem para separar do grid */
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        .data-item {
+            background-color: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 3px;
+            border: 1px solid #dee2e6;
+            display: flex; /* Para alinhar label e value */
+            flex-wrap: wrap; /* Para quebra de linha se o conteúdo for muito longo */
+        }
+        .data-label {
+            font-weight: bold;
+            color: #495057;
+            margin-right: 5px;
+        }
+        .data-value {
+            color: #6c757d;
+            flex-grow: 1; /* Permite que o valor ocupe o espaço restante */
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .submit-btn, .secondary-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex-grow: 1; /* Allow buttons to grow and fill space */
+            text-align: center;
+            text-decoration: none; /* For anchor tags acting as buttons */
+            display: inline-block; /* For anchor tags acting as buttons */
+        }
+        .submit-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+        .submit-btn:hover {
+            background-color: #229954;
+        }
+        .secondary-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        .secondary-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        /* Estilos para a subseção de imagens */
+        .sub-section {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+        .sub-section h3 {
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px dotted #bbb;
+            padding-bottom: 10px;
+            font-size: 1.15em;
+        }
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .button-group {
+                flex-direction: column; /* Botões em coluna em telas pequenas */
+            }
+        }
+        
+        /* Estilos para Autocomplete */
+        .autocomplete-container {
+            position: relative;
+        }
+        .autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #bdc3c7;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .autocomplete-suggestion {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .autocomplete-suggestion:hover, .autocomplete-suggestion.highlighted {
+            background-color: #3498db;
+            color: white;
+        }
+        .autocomplete-suggestion:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- START ADDED: Logo -->
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Quasat Energia Solar" class="app-logo">
+        </div>
+        <!-- END ADDED -->
+        <h1>📋 Preenchimento Manual de Dados</h1>
+        
+        <form method="POST" action="{{ url_for('process_and_save') }}" enctype="multipart/form-data">
+            <input type="hidden" name="distributor_type" value="{{ dados.distributor_type }}"> {# Hidden field to pass distributor_type #}
+
+            <div class="extracted-data">
+                <h3>✅ Dados Extraídos da Fatura ({{ dados.distributor_type if dados.distributor_type else 'Desconhecido' }})</h3>
+                <div class="data-grid">
+                    <!-- CAMPOS EXTRAÍDOS AGORA SÃO EDITÁVEIS -->
+                    <div class="form-group">
+                        <label for="extracted_Nome_Razao_Social">Nome/Razão Social:</label>
+                        <input type="text" id="extracted_Nome_Razao_Social" name="extracted_Nome_Razao_Social" value="{{ dados.get('Nome_Razao_Social', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_CNPJ_CPF">CNPJ/CPF:</label>
+                        <input type="text" id="extracted_CNPJ_CPF" name="extracted_CNPJ_CPF" value="{{ dados.get('CNPJ_CPF', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Endereco_Rua_Numero">Endereço (Rua e Número):</label>
+                        <input type="text" id="extracted_Endereco_Rua_Numero" name="extracted_Endereco_Rua_Numero" value="{{ dados.get('Endereco_Rua_Numero', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Bairro">Bairro:</label>
+                        <input type="text" id="extracted_Bairro" name="extracted_Bairro" value="{{ dados.get('Bairro', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Cidade">Cidade:</label>
+                        <input type="text" id="extracted_Cidade" name="extracted_Cidade" value="{{ dados.get('Cidade', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Estado">Estado:</label>
+                        <input type="text" id="extracted_Estado" name="extracted_Estado" value="{{ dados.get('Estado', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_CEP">CEP:</label>
+                        <input type="text" id="extracted_CEP" name="extracted_CEP" value="{{ dados.get('CEP', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_UC">UC:</label>
+                        <input type="text" id="extracted_UC" name="extracted_UC" value="{{ dados.get('UC', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Classe_Tarifaria">Classe Tarifária:</label>
+                        <input type="text" id="extracted_Classe_Tarifaria" name="extracted_Classe_Tarifaria" value="{{ dados.get('Classe_Tarifaria', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Grupo_Tarifario">Grupo Tarifário:</label>
+                        <input type="text" id="extracted_Grupo_Tarifario" name="extracted_Grupo_Tarifario" value="{{ dados.get('Grupo_Tarifario', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="extracted_Tensao_Nominal_V">Tensão Nominal (V):</label>
+                        <input type="text" id="extracted_Tensao_Nominal_V" name="extracted_Tensao_Nominal_V" value="{{ dados.get('Tensao_Nominal_V', '') | default('', true) }}">
+                    </div>
+                </div>
+            </div>
+
+            <h2>📝 Informações Complementares</h2>
+            
+            <div class="form-section">
+                <h3>👤 Dados de Contato</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="E-MAIL">E-mail:</label>
+                        <input type="email" id="E-MAIL" name="E-MAIL" placeholder="exemplo@email.com" value="{{ dados.get('E-MAIL', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="TELEFONE">Telefone:</label>
+                        <input type="tel" id="TELEFONE" name="TELEFONE" placeholder="(51) 99999-9999" value="{{ dados.get('TELEFONE', '') | default('', true) }}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="LATITUDE">Latitude (Graus Decimais):</label>
+                        <input type="text" id="LATITUDE" name="LATITUDE" placeholder="-23.550520" value="{{ dados.get('LATITUDE', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="LONGITUDE">Longitude (Graus Decimais):</label>
+                        <input type="text" id="LONGITUDE" name="LONGITUDE" placeholder="-46.633308" value="{{ dados.get('LONGITUDE', '') | default('', true) }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>⚡ Dados da Entrada Elétrica</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="CARGA INSTALADA">Carga Instalada (kW):</label>
+                        <input type="text" id="CARGA INSTALADA" name="CARGA_INSTALADA" placeholder="Ex: 10.5" value="{{ dados.get('CARGA_INSTALADA', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="CATEGORIA">Categoria:</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="CATEGORIA" name="CATEGORIA" placeholder="Digite para buscar..." value="{{ dados.get('CATEGORIA', '') | default('', true) }}">
+                            <div class="autocomplete-suggestions" id="categoria_suggestions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="TIPO_DE_ATENDIMENTO">Tipo de Atendimento:</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="TIPO_DE_ATENDIMENTO" name="TIPO_DE_ATENDIMENTO" placeholder="Digite para buscar..." value="{{ dados.get('TIPO_DE_ATENDIMENTO', '') | default('', true) }}">
+                            <div class="autocomplete-suggestions" id="tipo_atendimento_suggestions"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TIPO_DE_CAIXA">Tipo de Caixa:</label>
+                        <div class="autocomplete-container">
+                            <input type="text" id="TIPO_DE_CAIXA" name="TIPO_DE_CAIXA" placeholder="Digite para buscar..." value="{{ dados.get('TIPO_DE_CAIXA', '') | default('', true) }}">
+                            <div class="autocomplete-suggestions" id="tipo_caixa_suggestions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ISOLACAO">Isolação:</label>
+                    <div class="autocomplete-container">
+                        <input type="text" id="ISOLACAO" name="ISOLACAO" placeholder="Digite para buscar..." value="{{ dados.get('ISOLACAO', '') | default('', true) }}">
+                        <div class="autocomplete-suggestions" id="isolacao_suggestions"></div>
+                    </div>
+                </div>
+
+                <div class="sub-section">
+                    <h3> ️ Imagens da Entrada Elétrica (JPEG/PNG)</h3>
+                    <div class="form-group">
+                        <label for="foto_disjuntor">Foto do Disjuntor:</label>
+                        <input type="file" id="foto_disjuntor" name="foto_disjuntor" accept=".jpg, .jpeg, .png">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto_fachada">Foto da Fachada:</label>
+                        <input type="file" id="foto_fachada" name="foto_fachada" accept=".jpg, .jpeg, .png">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto_entrada_energia">Foto da Entrada de Energia:</label>
+                        <input type="file" id="foto_entrada_energia" name="foto_entrada_energia" accept=".jpg, .jpeg, .png">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-section">
+                <h3>☀️ Dados do Sistema Fotovoltaico</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="potencia_modulo_manual">Potência do Módulo (Wp):</label>
+                        <input type="text" id="potencia_modulo_manual" name="POTENCIA_MODULO_MANUAL" placeholder="Ex: 550" value="{{ dados.get('POTENCIA_MODULO_MANUAL', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="fabricante_modulo_manual">Fabricante do Módulo:</label>
+                        <input type="text" id="fabricante_modulo_manual" name="FABRICANTE_MODULO_MANUAL" placeholder="Ex: Canadian Solar" value="{{ dados.get('FABRICANTE_MODULO_MANUAL', '') | default('', true) }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="quantidade_placas_manual">Quantidade de Placas:</label>
+                    <input type="number" id="quantidade_placas_manual" name="QUANTIDADE_PLACAS_MANUAL" placeholder="Ex: 20" value="{{ dados.get('QUANTIDADE_PLACAS_MANUAL', '') | default('', true) }}">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="potencia_inversor_manual">Potência do Inversor (kW):</label>
+                        <input type="text" id="potencia_inversor_manual" name="POTENCIA_INVERSOR_MANUAL" placeholder="Ex: 10" value="{{ dados.get('POTENCIA_INVERSOR_MANUAL', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="fabricante_inversor_manual">Fabricante do Inversor:</label>
+                        <input type="text" id="fabricante_inversor_manual" name="FABRICANTE_INVERSOR_MANUAL" placeholder="Ex: Fronius" value="{{ dados.get('FABRICANTE_INVERSOR_MANUAL', '') | default('', true) }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="quantidade_inversor_manual">Quantidade de Inversores:</label>
+                    <input type="number" id="quantidade_inversor_manual" name="QUANTIDADE_INVERSOR_MANUAL" placeholder="Ex: 1" value="{{ dados.get('QUANTIDADE_INVERSOR_MANUAL', '') | default('', true) }}">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>📄 Dados da ART</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ART">Número da ART:</label>
+                        <input type="text" id="ART" name="ART" placeholder="Ex: 1234567890" value="{{ dados.get('ART', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="DATA_ART">Data da ART:</label>
+                        <input type="date" id="DATA_ART" name="DATA_ART" value="{{ dados.get('DATA_ART', '') | default('', true) }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">✅ Processar e Salvar Documentos</button>
+                <a href="{{ url_for('clear_session_and_redirect_to_upload') }}" class="secondary-btn">↩️ Processar Nova Fatura</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const autocompleteData = {
+            categoria: [
+                'RIC BT - A2',
+                'GED 13 - A3',
+                'GED 13 - A4',
+                'RIC BT - B2',
+                'GED 13 - B3',
+                'RIC BT - B4',
+                'RIC BT - B5',
+                'GED 13 - C7',
+                'GED 13 - C8',
+                'GED 13 - C9',
+                'GED 13 - C10',
+                'GED 13 - C11',
+                'RIC BT - C13',
+                'RIC BT - C14',
+                'RIC BT - C15',
+                'RIC BT - C16',
+                'RIC BT - C17',
+                'RIC BT - C18'
+            ],
+            tipo_atendimento: ['Aéreo', 'Subterrâneo'], // LISTA ATUALIZADA
+            tipo_caixa: ['CLE', 'CLI', 'Policarbonato'], // LISTA ATUALIZADA
+            isolacao: ['Alumínio', 'Cobre', 'PVC', 'EPR', 'XLPE', '750V (PVC)', '1KV (HEPR)']
+        };
+
+        function setupAutocomplete(inputId, suggestionsId, dataKey) {
+            const input = document.getElementById(inputId);
+            const suggestionsDiv = document.getElementById(suggestionsId);
+            const data = autocompleteData[dataKey];
+            let highlightedIndex = -1;
+
+            if (!input || !suggestionsDiv || !data) {
+                console.warn(`Autocomplete setup failed for inputId: ${inputId}. Element(s) not found or data missing.`);
+                return;
+            }
+
+            input.addEventListener('input', function() {
+                const value = this.value.toLowerCase();
+                suggestionsDiv.innerHTML = '';
+                highlightedIndex = -1;
+
+                if (value.length === 0) {
+                    suggestionsDiv.style.display = 'none';
+                    return;
+                }
+
+                const filteredData = data.filter(item => 
+                    item.toLowerCase().includes(value)
+                );
+
+                if (filteredData.length === 0) {
+                    suggestionsDiv.style.display = 'none';
+                    return;
+                }
+
+                filteredData.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-suggestion';
+                    div.textContent = item;
+                    div.addEventListener('click', function() {
+                        input.value = item;
+                        suggestionsDiv.style.display = 'none';
+                    });
+                    suggestionsDiv.appendChild(div);
+                });
+
+                suggestionsDiv.style.display = 'block';
+            });
+
+            input.addEventListener('keydown', function(e) {
+                const suggestions = suggestionsDiv.querySelectorAll('.autocomplete-suggestion');
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    highlightedIndex = Math.min(highlightedIndex + 1, suggestions.length - 1);
+                    updateHighlight(suggestions);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    highlightedIndex = Math.max(highlightedIndex - 1, -1);
+                    updateHighlight(suggestions);
+                } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+                    e.preventDefault();
+                    input.value = suggestions[highlightedIndex].textContent;
+                    suggestionsDiv.style.display = 'none';
+                } else if (e.key === 'Escape') {
+                    suggestionsDiv.style.display = 'none';
+                    highlightedIndex = -1;
+                }
+            });
+
+            function updateHighlight(suggestions) {
+                suggestions.forEach((suggestion, index) => {
+                    if (index === highlightedIndex) {
+                        suggestion.classList.add('highlighted');
+                    } else {
+                        suggestion.classList.remove('highlighted');
+                    }
+                });
+            }
+
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                    suggestionsDiv.style.display = 'none';
+                }
+            });
+        }
+
+        // Setup autocomplete for each field
+        setupAutocomplete('CATEGORIA', 'categoria_suggestions', 'categoria');
+        setupAutocomplete('TIPO_DE_ATENDIMENTO', 'tipo_atendimento_suggestions', 'tipo_atendimento'); /* Corrected ID */
+        setupAutocomplete('TIPO_DE_CAIXA', 'tipo_caixa_suggestions', 'tipo_caixa'); /* Corrected ID */
+        setupAutocomplete('ISOLACAO', 'isolacao_suggestions', 'isolacao');
+
+        // Pré-preencher campos com dados da sessão, se existirem
+        document.addEventListener('DOMContentLoaded', function() {
+            // Os campos 'extracted_' são passados via hidden inputs, então não precisam ser preenchidos aqui diretamente.
+            // Os campos manuais são preenchidos pelos seus respectivos `dados.get('KEY')` values no HTML.
+            // Para autocomplete, precisamos garantir que o value inicial seja setado caso não venha vazio.
+            document.getElementById('CATEGORIA').value = "{{ dados.get('CATEGORIA', '') | default('', true) }}";
+            document.getElementById('TIPO_DE_ATENDIMENTO').value = "{{ dados.get('TIPO_DE_ATENDIMENTO', '') | default('', true) }}";
+            document.getElementById('TIPO_DE_CAIXA').value = "{{ dados.get('TIPO_DE_CAIXA', '') | default('', true) }}";
+            document.getElementById('ISOLACAO').value = "{{ dados.get('ISOLACAO', '') | default('', true) }}";
+            document.getElementById('ART').value = "{{ dados.get('ART', '') | default('', true) }}";
+            document.getElementById('DATA_ART').value = "{{ dados.get('DATA_ART', '') | default('', true) }}";
+            // Os campos como E-MAIL, TELEFONE, LATITUDE, LONGITUDE, CARGA INSTALADA, etc. já são preenchidos
+            // diretamente nos seus inputs usando `value="{{ dados.get('KEY', '') | default('', true) }}"`.
+        });
+    </script>
+    <!-- START ADDED: Footer Author -->
+    <div class="footer-author">
+        Felipe Welke™
+    </div>
+    <!-- END ADDED -->
+</body>
+</html>
