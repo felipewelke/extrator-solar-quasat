@@ -3,7 +3,8 @@ import re
 import os
 import uuid
 import tempfile
-from flask import Flask, request, render_template, redirect, url_for, session, send_file
+# LINHA MODIFICADA: ADICIONAMOS 'flash' aqui
+from flask import Flask, request, render_template, redirect, url_for, session, send_file, flash
 from werkzeug.utils import secure_filename
 import json
 import openpyxl
@@ -22,6 +23,11 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, portrait
 from reportlab.lib.units import cm
 from reportlab.lib.utils import ImageReader
+
+# --- NOVIDADE AQUI: Importa e carrega variáveis de ambiente do .env ---
+from dotenv import load_dotenv
+load_dotenv()
+# ---------------------------------------------------------------------
 
 # Somente importa win32com se estiver no Windows
 if os.name == 'nt':
@@ -1061,8 +1067,10 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # Aumentado para acomodar mais arquivos e imagens
-app.secret_key = 'supersecretkey'
+# LINHA MODIFICADA: Aumentado para 20MB
+app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
+# LINHA MODIFICADA: Substituído 'supersecretkey' por os.urandom(24) para segurança
+app.secret_key = os.urandom(24)
 
 ALLOWED_EXTENSIONS = {'pdf'}
 ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg'} # Adicionado para validação de imagens
@@ -2528,7 +2536,8 @@ def download_zip(zip_filename):
         print(f"Erro ao criar e servir o arquivo ZIP: {e}")
         return f"Erro ao gerar o arquivo ZIP: {e}", 500
 
+# BLOCO MODIFICADO: Agora usa a variável de ambiente FLASK_DEBUG
 if __name__ == '__main__':
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Usa a variável de ambiente FLASK_DEBUG. Se não estiver definida, ou for diferente de '1', será False.
+    debug_mode = os.environ.get('FLASK_DEBUG') == '1'
+    app.run(host='0.0.0.0', port=5000, debug=debug_mode)
