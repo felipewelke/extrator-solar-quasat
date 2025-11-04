@@ -18,13 +18,12 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        /* START MODIFIED/ADDED CSS FOR LOGO AND FOOTER */
         .logo-container {
             text-align: center;
             margin-bottom: 20px;
         }
         .app-logo {
-            max-width: 250px; /* Ajuste o tamanho da logo conforme necessário */
+            max-width: 250px;
             height: auto;
         }
         .footer-author {
@@ -37,7 +36,6 @@
             text-align: right;
             padding: 2px 5px;
         }
-        /* END MODIFIED/ADDED CSS FOR LOGO AND FOOTER */
         h1 {
             color: #2c3e50;
             text-align: center;
@@ -63,8 +61,8 @@
         }
         input[type="text"], input[type="email"], input[type="tel"], select,
         .autocomplete-container input,
-        input[type="number"], /* Adicionado aqui para incluir no estilo */
-        input[type="date"] { /* Adicionado para input type=date */
+        input[type="number"],
+        input[type="date"] {
             width: 100%;
             padding: 10px;
             border: 2px solid #bdc3c7;
@@ -89,7 +87,7 @@
         }
         input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus,
         select:focus, .autocomplete-container input:focus,
-        input[type="number"]:focus, input[type="date"]:focus, input[type="file"]:focus { /* Adicionado para input type=date */
+        input[type="number"]:focus, input[type="date"]:focus, input[type="file"]:focus {
             border-color: #3498db;
             outline: none;
         }
@@ -103,7 +101,7 @@
         .extracted-data h3 {
             color: #27ae60;
             margin-top: 0;
-            margin-bottom: 10px; /* Adicionado margem para separar do grid */
+            margin-bottom: 10px;
         }
         .data-grid {
             display: grid;
@@ -115,8 +113,8 @@
             padding: 8px 12px;
             border-radius: 3px;
             border: 1px solid #dee2e6;
-            display: flex; /* Para alinhar label e value */
-            flex-wrap: wrap; /* Para quebra de linha se o conteúdo for muito longo */
+            display: flex;
+            flex-wrap: wrap;
         }
         .data-label {
             font-weight: bold;
@@ -125,7 +123,7 @@
         }
         .data-value {
             color: #6c757d;
-            flex-grow: 1; /* Permite que o valor ocupe o espaço restante */
+            flex-grow: 1;
         }
         .button-group {
             display: flex;
@@ -140,10 +138,10 @@
             font-size: 18px;
             cursor: pointer;
             transition: background-color 0.3s;
-            flex-grow: 1; /* Allow buttons to grow and fill space */
+            flex-grow: 1;
             text-align: center;
-            text-decoration: none; /* For anchor tags acting as buttons */
-            display: inline-block; /* For anchor tags acting as buttons */
+            text-decoration: none;
+            display: inline-block;
         }
         .submit-btn {
             background-color: #27ae60;
@@ -165,7 +163,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        /* Estilos para a subseção de imagens */
         .sub-section {
             border: 1px solid #e0e0e0;
             border-radius: 8px;
@@ -187,11 +184,10 @@
                 grid-template-columns: 1fr;
             }
             .button-group {
-                flex-direction: column; /* Botões em coluna em telas pequenas */
+                flex-direction: column;
             }
         }
         
-        /* Estilos para Autocomplete */
         .autocomplete-container {
             position: relative;
         }
@@ -225,20 +221,17 @@
 </head>
 <body>
     <div class="container">
-        <!-- START ADDED: Logo -->
         <div class="logo-container">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Quasat Energia Solar" class="app-logo">
         </div>
-        <!-- END ADDED -->
         <h1>📋 Preenchimento Manual de Dados</h1>
         
         <form method="POST" action="{{ url_for('process_and_save') }}" enctype="multipart/form-data">
-            <input type="hidden" name="distributor_type" value="{{ dados.distributor_type }}"> {# Hidden field to pass distributor_type #}
+            <input type="hidden" name="distributor_type" value="{{ dados.distributor_type }}">
 
             <div class="extracted-data">
                 <h3>✅ Dados Extraídos da Fatura ({{ dados.distributor_type if dados.distributor_type else 'Desconhecido' }})</h3>
                 <div class="data-grid">
-                    <!-- CAMPOS EXTRAÍDOS AGORA SÃO EDITÁVEIS -->
                     <div class="form-group">
                         <label for="extracted_Nome_Razao_Social">Nome/Razão Social:</label>
                         <input type="text" id="extracted_Nome_Razao_Social" name="extracted_Nome_Razao_Social" value="{{ dados.get('Nome_Razao_Social', '') | default('', true) }}">
@@ -388,6 +381,17 @@
                 
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="MODELO_MODULO_CALCULADO">Modelo do Módulo:</label>
+                        <input type="text" id="MODELO_MODULO_CALCULADO" name="MODELO_MODULO_CALCULADO" value="{{ dados.get('MODELO_MODULO_CALCULADO', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="AREA_ARRANJOS_CALCULADO">Área total dos módulos (m²):</label>
+                        <input type="number" step="any" id="AREA_ARRANJOS_CALCULADO" name="AREA_ARRANJOS_CALCULADO" value="{{ dados.get('AREA_ARRANJOS_CALCULADO', '') | default('', true) }}">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
                         <label for="potencia_inversor_manual">Potência do Inversor (kW):</label>
                         <input type="number" step="any" id="potencia_inversor_manual" name="POTENCIA_INVERSOR_MANUAL" placeholder="Ex: 10" value="{{ dados.get('POTENCIA_INVERSOR_MANUAL', '') | default('', true) }}">
                     </div>
@@ -399,6 +403,25 @@
                 <div class="form-group">
                     <label for="quantidade_inversor_manual">Quantidade de Inversores:</label>
                     <input type="number" id="quantidade_inversor_manual" name="QUANTIDADE_INVERSOR_MANUAL" placeholder="Ex: 1" value="{{ dados.get('QUANTIDADE_INVERSOR_MANUAL', '') | default('', true) }}">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="MODELO_INVERSOR_CALCULADO">Modelo do Inversor:</label>
+                        <input type="text" id="MODELO_INVERSOR_CALCULADO" name="MODELO_INVERSOR_CALCULADO" value="{{ dados.get('MODELO_INVERSOR_CALCULADO', '') | default('', true) }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="INMETRO">INMETRO do Inversor:</label>
+                        <input type="text" id="INMETRO" name="INMETRO" value="{{ dados.get('INMETRO', '') | default('', true) }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ISOLACAO_CA">Isolação CA:</label>
+                    <select id="ISOLACAO_CA" name="ISOLACAO_CA">
+                        <option value="">-- Selecione --</option>
+                        <option value="750V (PVC)" {% if dados.get('ISOLACAO_CA') == '750V (PVC)' %}selected{% endif %}>750V (PVC)</option>
+                        <option value="1KV (HEPR)" {% if dados.get('ISOLACAO_CA') == '1KV (HEPR)' %}selected{% endif %}>1KV (HEPR)</option>
+                    </select>
                 </div>
             </div>
 
@@ -424,29 +447,12 @@
     </div>
 
     <script>
+        const categoriaKeys = {{ TABELA_CATEGORIA_ELET_KEYS | tojson }};
+
         const autocompleteData = {
-            categoria: [
-                'RIC BT - A2',
-                'GED 13 - A3',
-                'GED 13 - A4',
-                'RIC BT - B2',
-                'GED 13 - B3',
-                'RIC BT - B4',
-                'RIC BT - B5',
-                'GED 13 - C7',
-                'GED 13 - C8',
-                'GED 13 - C9',
-                'GED 13 - C10',
-                'GED 13 - C11',
-                'RIC BT - C13',
-                'RIC BT - C14',
-                'RIC BT - C15',
-                'RIC BT - C16',
-                'RIC BT - C17',
-                'RIC BT - C18'
-            ],
-            tipo_atendimento: ['Aéreo', 'Subterrâneo'], // LISTA ATUALIZADA
-            tipo_caixa: ['CLE', 'CLI', 'Policarbonato'], // LISTA ATUALIZADA
+            categoria: categoriaKeys, 
+            tipo_atendimento: ['Aéreo', 'Subterrâneo'],
+            tipo_caixa: ['CLE', 'CLI', 'Policarbonato'],
             isolacao: ['Alumínio', 'Cobre', 'PVC', 'EPR', 'XLPE', '750V (PVC)', '1KV (HEPR)']
         };
 
@@ -501,10 +507,16 @@
                     e.preventDefault();
                     highlightedIndex = Math.min(highlightedIndex + 1, suggestions.length - 1);
                     updateHighlight(suggestions);
+                    if (suggestions[highlightedIndex]) {
+                        suggestions[highlightedIndex].scrollIntoView({ block: 'nearest' });
+                    }
                 } else if (e.key === 'ArrowUp') {
                     e.preventDefault();
                     highlightedIndex = Math.max(highlightedIndex - 1, -1);
                     updateHighlight(suggestions);
+                    if (suggestions[highlightedIndex]) {
+                        suggestions[highlightedIndex].scrollIntoView({ block: 'nearest' });
+                    }
                 } else if (e.key === 'Enter' && highlightedIndex >= 0) {
                     e.preventDefault();
                     input.value = suggestions[highlightedIndex].textContent;
@@ -532,31 +544,26 @@
             });
         }
 
-        // Setup autocomplete for each field
         setupAutocomplete('CATEGORIA', 'categoria_suggestions', 'categoria');
-        setupAutocomplete('TIPO_DE_ATENDIMENTO', 'tipo_atendimento_suggestions', 'tipo_atendimento'); /* Corrected ID */
-        setupAutocomplete('TIPO_DE_CAIXA', 'tipo_caixa_suggestions', 'tipo_caixa'); /* Corrected ID */
+        setupAutocomplete('TIPO_DE_ATENDIMENTO', 'tipo_atendimento_suggestions', 'tipo_atendimento');
+        setupAutocomplete('TIPO_DE_CAIXA', 'tipo_caixa_suggestions', 'tipo_caixa');
         setupAutocomplete('ISOLACAO', 'isolacao_suggestions', 'isolacao');
 
-        // Pré-preencher campos com dados da sessão, se existirem
         document.addEventListener('DOMContentLoaded', function() {
-            // Os campos 'extracted_' são passados via hidden inputs, então não precisam ser preenchidos aqui diretamente.
-            // Os campos manuais são preenchidos pelos seus respectivos `dados.get('KEY')` values no HTML.
-            // Para autocomplete, precisamos garantir que o value inicial seja setado caso não venha vazio.
             document.getElementById('CATEGORIA').value = "{{ dados.get('CATEGORIA', '') | default('', true) }}";
             document.getElementById('TIPO_DE_ATENDIMENTO').value = "{{ dados.get('TIPO_DE_ATENDIMENTO', '') | default('', true) }}";
             document.getElementById('TIPO_DE_CAIXA').value = "{{ dados.get('TIPO_DE_CAIXA', '') | default('', true) }}";
             document.getElementById('ISOLACAO').value = "{{ dados.get('ISOLACAO', '') | default('', true) }}";
             document.getElementById('ART').value = "{{ dados.get('ART', '') | default('', true) }}";
             document.getElementById('DATA_ART').value = "{{ dados.get('DATA_ART', '') | default('', true) }}";
-            // Os campos como E-MAIL, TELEFONE, LATITUDE, LONGITUDE, CARGA INSTALADA, etc. já são preenchidos
-            // diretamente nos seus inputs usando `value="{{ dados.get('KEY', '') | default('', true) }}"`.
+            document.getElementById('MODELO_MODULO_CALCULADO').value = "{{ dados.get('MODELO_MODULO_CALCULADO', '') | default('', true) }}";
+            document.getElementById('AREA_ARRANJOS_CALCULADO').value = "{{ dados.get('AREA_ARRANJOS_CALCULADO', '') | default('', true) }}";
+            document.getElementById('MODELO_INVERSOR_CALCULADO').value = "{{ dados.get('MODELO_INVERSOR_CALCULADO', '') | default('', true) }}";
+            document.getElementById('INMETRO').value = "{{ dados.get('INMETRO', '') | default('', true) }}";
         });
     </script>
-    <!-- START ADDED: Footer Author -->
     <div class="footer-author">
         Felipe Welke™
     </div>
-    <!-- END ADDED -->
 </body>
 </html>

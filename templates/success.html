@@ -18,13 +18,12 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        /* START ADDED/MODIFIED CSS FOR LOGO AND FOOTER */
         .logo-container {
             text-align: center;
             margin-bottom: 20px;
         }
         .app-logo {
-            max-width: 250px; /* Ajuste o tamanho da logo conforme necessário */
+            max-width: 250px;
             height: auto;
         }
         .footer-author {
@@ -37,7 +36,6 @@
             text-align: right;
             padding: 2px 5px;
         }
-        /* END ADDED/MODIFIED CSS FOR LOGO AND FOOTER */
         h1 {
             color: #27ae60;
             text-align: center;
@@ -59,14 +57,14 @@
             border-radius: 8px;
             margin-bottom: 30px;
             border-left: 4px solid #2196f3;
-            text-align: center; /* Centralizar o botão de download */
+            text-align: center;
         }
         .download-buttons {
-            display: flex; /* Usar flexbox para centralizar um único item */
-            justify-content: center; /* Centralizar horizontalmente */
-            gap: 15px; /* Espaço entre os botões */
+            display: flex;
+            justify-content: center;
+            gap: 15px;
             margin-top: 15px;
-            flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+            flex-wrap: wrap;
         }
         .action-button {
             background-color: #2196f3;
@@ -140,8 +138,8 @@
             padding: 10px 15px;
             border-radius: 5px;
             border: 1px solid #dee2e6;
-            display: flex; /* Para alinhar label e value */
-            flex-wrap: wrap; /* Para quebra de linha se o conteúdo for muito longo */
+            display: flex;
+            flex-wrap: wrap;
         }
         .data-label {
             font-weight: bold;
@@ -150,7 +148,7 @@
         }
         .data-value {
             color: #6c757d;
-            flex-grow: 1; /* Permite que o valor ocupe o espaço restante */
+            flex-grow: 1;
         }
         
         @media (max-width: 768px) {
@@ -165,11 +163,9 @@
 </head>
 <body>
     <div class="container">
-        <!-- START ADDED: Logo -->
         <div class="logo-container">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Quasat Energia Solar" class="app-logo">
         </div>
-        <!-- END ADDED -->
         <h1>✅ Processamento Concluído com Sucesso!</h1>
 
         <div class="success-message">
@@ -225,15 +221,13 @@
                         <span class="data-label">{{ key }}:</span>
                         <span class="data-value">{{ value }}</span>
                     </div>
-                {% endfor %}
+                    {% endfor %}
             </div>
         </div>
     </div>
 
-    <!-- START ADDED: Footer Author -->
     <div class="footer-author">
         Felipe Welke™
     </div>
-    <!-- END ADDED -->
 </body>
 </html>

@@ -28,7 +28,7 @@ body {
 }
 
 .app-logo {
-    max-width: 250px; /* Ajuste o tamanho da logo conforme necessário */
+    max-width: 250px;
     height: auto;
 }
 
@@ -72,7 +72,7 @@ p {
     padding: 10px 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura */
+    box-sizing: border-box;
     font-size: 1em;
     transition: border-color 0.2s;
 }
@@ -167,7 +167,7 @@ button[type="submit"]:hover {
     background-color: #f7f9f9;
     border: 1px solid #e0e6e7;
     border-radius: 5px;
-    word-wrap: break-word; /* Para garantir que texto longo não quebre o layout */
+    word-wrap: break-word;
 }
 
 .actions {
@@ -223,14 +223,13 @@ button[type="submit"]:hover {
     background-color: #7f8c8d;
 }
 
-/* Footer Autoral */
 .footer-author {
-    position: fixed; /* Fixa o elemento na tela */
-    bottom: 5px;     /* 5 pixels do fundo */
-    right: 5px;      /* 5 pixels da direita */
-    font-size: 8px;  /* Tamanho de fonte pequeno */
-    color: #aaaaaa;  /* Cor discreta (cinza claro) */
-    z-index: 1000;   /* Garante que fique acima de outros elementos */
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    font-size: 8px;
+    color: #aaaaaa;
+    z-index: 1000;
     text-align: right;
-    padding: 2px 5px; /* Pequeno padding para não colar na borda */
+    padding: 2px 5px;
 }

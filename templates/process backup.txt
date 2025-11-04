@@ -63,7 +63,7 @@
         }
         input[type="text"], input[type="email"], input[type="tel"], select,
         .autocomplete-container input,
-        input[type="number"],
+        input[type="number"], /* Adicionado aqui para incluir no estilo */
         input[type="date"] { /* Adicionado para input type=date */
             width: 100%;
             padding: 10px;
@@ -303,11 +303,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="LATITUDE">Latitude (Graus Decimais):</label>
-                        <input type="text" id="LATITUDE" name="LATITUDE" placeholder="-23.550520" value="{{ dados.get('LATITUDE', '') | default('', true) }}">
+                        <input type="number" step="any" id="LATITUDE" name="LATITUDE" placeholder="-23.550520" value="{{ dados.get('LATITUDE', '') | default('', true) }}">
                     </div>
                     <div class="form-group">
                         <label for="LONGITUDE">Longitude (Graus Decimais):</label>
-                        <input type="text" id="LONGITUDE" name="LONGITUDE" placeholder="-46.633308" value="{{ dados.get('LONGITUDE', '') | default('', true) }}">
+                        <input type="number" step="any" id="LONGITUDE" name="LONGITUDE" placeholder="-46.633308" value="{{ dados.get('LONGITUDE', '') | default('', true) }}">
                     </div>
                 </div>
             </div>
@@ -316,8 +316,8 @@
                 <h3>⚡ Dados da Entrada Elétrica</h3>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="CARGA INSTALADA">Carga Instalada (kW):</label>
-                        <input type="text" id="CARGA INSTALADA" name="CARGA_INSTALADA" placeholder="Ex: 10.5" value="{{ dados.get('CARGA_INSTALADA', '') | default('', true) }}">
+                        <label for="CARGA_INSTALADA">Carga Instalada (kW):</label>
+                        <input type="number" step="any" id="CARGA_INSTALADA" name="CARGA_INSTALADA" placeholder="Ex: 10.5" value="{{ dados.get('CARGA_INSTALADA', '') | default('', true) }}">
                     </div>
                     <div class="form-group">
                         <label for="CATEGORIA">Categoria:</label>
@@ -374,7 +374,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="potencia_modulo_manual">Potência do Módulo (Wp):</label>
-                        <input type="text" id="potencia_modulo_manual" name="POTENCIA_MODULO_MANUAL" placeholder="Ex: 550" value="{{ dados.get('POTENCIA_MODULO_MANUAL', '') | default('', true) }}">
+                        <input type="number" step="any" id="potencia_modulo_manual" name="POTENCIA_MODULO_MANUAL" placeholder="Ex: 550" value="{{ dados.get('POTENCIA_MODULO_MANUAL', '') | default('', true) }}">
                     </div>
                     <div class="form-group">
                         <label for="fabricante_modulo_manual">Fabricante do Módulo:</label>
@@ -389,7 +389,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="potencia_inversor_manual">Potência do Inversor (kW):</label>
-                        <input type="text" id="potencia_inversor_manual" name="POTENCIA_INVERSOR_MANUAL" placeholder="Ex: 10" value="{{ dados.get('POTENCIA_INVERSOR_MANUAL', '') | default('', true) }}">
+                        <input type="number" step="any" id="potencia_inversor_manual" name="POTENCIA_INVERSOR_MANUAL" placeholder="Ex: 10" value="{{ dados.get('POTENCIA_INVERSOR_MANUAL', '') | default('', true) }}">
                     </div>
                     <div class="form-group">
                         <label for="fabricante_inversor_manual">Fabricante do Inversor:</label>
@@ -407,7 +407,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="ART">Número da ART:</label>
-                        <input type="text" id="ART" name="ART" placeholder="Ex: 1234567890" value="{{ dados.get('ART', '') | default('', true) }}">
+                        <input type="number" id="ART" name="ART" placeholder="Ex: 1234567890" value="{{ dados.get('ART', '') | default('', true) }}">
                     </div>
                     <div class="form-group">
                         <label for="DATA_ART">Data da ART:</label>
